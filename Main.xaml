@@ -69,21 +69,27 @@
       <Variable x:TypeArguments="sd:DataTable" Name="dt_Sheet1_Filtered" />
     </Sequence.Variables>
     <ui:ReadRange Range="{x:Null}" AddHeaders="True" DataTable="[dt_Sheet1]" DisplayName="Read - Sheet1" sap2010:WorkflowViewState.IdRef="ReadRange_1" SheetName="Sheet1" WorkbookPath="Data_With_EmptyRow.xlsx" />
-    <Assign DisplayName="Filter a empty row" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <Assign sap2010:Annotation.AnnotationText="dt.Rows.OfType(of DataRow).Where(Function(r as datarow) string.IsNullOrWhiteSpace(string.Concat(r.ItemArray).ToString) =false).toList()" DisplayName="Filter a empty row" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="sd:DataTable">[dt_Sheet1_Filtered]</OutArgument>
       </Assign.To>
       <Assign.Value>
-        <InArgument x:TypeArguments="sd:DataTable">[dt_Sheet1.AsEnumerable().Where(Function(row) row.ItemArray.All(Function(field) field IsNot Nothing AndAlso field IsNot DBNull.Value AndAlso Not field.Equals(""))).CopyToDataTable()]</InArgument>
+        <InArgument x:TypeArguments="sd:DataTable">[dt_Sheet1.AsEnumerable().Where(Function(row) Not row.ItemArray.All(Function(field) field Is Nothing OrElse field Is DBNull.Value OrElse field.Equals("") OrElse field.Equals(" "))).CopyToDataTable()]</InArgument>
       </Assign.Value>
     </Assign>
     <ui:WriteRange AddHeaders="True" DataTable="[dt_Sheet1_Filtered]" DisplayName="Write - Sheet1 - Filtered" sap2010:WorkflowViewState.IdRef="WriteRange_1" SheetName="Sheet1" StartingCell="A1" WorkbookPath="Data_Without_EmptyRow.xlsx" />
-    <sads:DebugSymbol.Symbol>dzJEOlxSUEFcTWFub2pWXFJlbW92ZUVtcHR5Um93X1dpdGhvdXRMb29wXE1haW4ueGFtbA1CA1IOAgEBRwVH1AECAQxIBU8OAgEIUAVQ7wECAQJHQEdNAgEPR6IBR6oBAgEOR7gBR9EBAgENTTRN6gECAQtKNUpJAgEJUL4BUMIBAgEHUDBQRgIBBVCoAVCwAQIBBFDQAVDsAQIBAw==</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>dzJEOlxSUEFcTWFub2pWXFJlbW92ZUVtcHR5Um93X1dpdGhvdXRMb29wXE1haW4ueGFtbA1CA1IOAgEBRwVH1AECAQxIBU8OAgEIUAVQ7wECAQJHQEdNAgEPR6IBR6oBAgEOR7gBR9EBAgENTTRN+wECAQtKNUpJAgEJUL4BUMIBAgEHUDBQRgIBBVCoAVCwAQIBBFDQAVDsAQIBAw==</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
       <sap2010:ViewStateData Id="ReadRange_1" sap:VirtualizedContainerService.HintSize="314,87" />
-      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="314,60" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="314,60">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
       <sap2010:ViewStateData Id="WriteRange_1" sap:VirtualizedContainerService.HintSize="314,115" />
       <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="336,466">
         <sap:WorkflowViewStateService.ViewState>
